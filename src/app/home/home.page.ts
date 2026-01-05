@@ -125,15 +125,7 @@ async presentFileOptions() {
 }
 
 
-  onAudioFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) this.handleLocalFile(file, 'audio');
-  }
 
-  onVideoFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) this.handleLocalFile(file, 'video');
-  }
 
   private handleLocalFile(file: File, type: 'audio' | 'video') {
     this.previewType = type;
@@ -272,7 +264,7 @@ async presentUrlPrompt() {
   }
 
   // Petit utilitaire pour afficher un message
-  async showToast(msg: string) {
+  async showSuccessToast(msg: string) {
     const toast = await this.toastCtrl.create({
       message: msg,
       duration: 2000,
