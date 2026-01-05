@@ -44,7 +44,13 @@ export class HomePage {
   // 🎙️ GESTION DU MICRO
   // ==========================================
 
+  resetTranscription() {
+  this.transcribedText = '';
+  }
+  // 🎙️ Start recording
+  // 🎙️ Start recording
   async startRecording() {
+    this.resetTranscription();     
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       this.audioChunks = [];
@@ -255,5 +261,69 @@ async presentUrlPrompt() {
     const doc = new jsPDF();
     doc.text(doc.splitTextToSize(this.transcribedText, 180), 10, 10);
     doc.save('transcription.pdf');
+    this.showToast('Téléchargement PDF terminé');
   }
+
+  // 4. Générer TXT
+  downloadTxt() {
+    const blob = new Blob([this.transcribedText], { type: 'text/plain;charset=utf-8' });
+    saveAs(blob, 'transcription.txt');
+    this.showToast('Téléchargement Texte terminé');
+  }
+
+  // Petit utilitaire pour afficher un message
+  async showToast(msg: string) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000,
+      color: 'success',
+      position: 'bottom'
+    });
+    toast.present();
+  }
+  onAudioFileSelected(event: any) {
+    this.resetTranscription();     
+  const file = event.target.files[0];
+  if (!file) return;
+
+  this.handleImportedFile(file);
 }
+
+onVideoFileSelected(event: any) {
+  this.resetTranscription();     
+  const file = event.target.files[0];
+  if (!file) return;
+
+  this.handleImportedFile(file);
+}
+
+handleImportedFile(file: File) {
+  const url = URL.createObjectURL(file);
+  this.audioURL = this.sanitizer.bypassSecurityTrustUrl(url);
+
+  if (file.type.startsWith('video')) {
+    this.previewType = 'video';
+  } else {
+    this.previewType = 'audio';
+  }
+
+  this.sendFileToBackend(file);
+}
+
+sendFileToBackend(file: File | Blob) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  this.http.post<any>('http://localhost:8000/transcribe', formData)
+    .subscribe({
+      next: res => {
+        this.transcribedText = res.text;
+        this.cdr.detectChanges();
+      },
+      error: () => alert('Transcription failed')
+    });
+}
+
+}
+
+
