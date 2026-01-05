@@ -40,10 +40,13 @@ export class HomePage {
     private sanitizer: DomSanitizer,
     private actionSheetCtrl: ActionSheetController
   ) {}
-
+  resetTranscription() {
+  this.transcribedText = '';
+  }
   // 🎙️ Start recording
   // 🎙️ Start recording
   async startRecording() {
+    this.resetTranscription();     
     this.isRecording = true;
     this.audioURL = null; // Clear previous recording when starting new
     this.recordingSeconds = 0;
@@ -226,6 +229,7 @@ updateRecordingTime() {
     toast.present();
   }
   onAudioFileSelected(event: any) {
+    this.resetTranscription();     
   const file = event.target.files[0];
   if (!file) return;
 
@@ -233,6 +237,7 @@ updateRecordingTime() {
 }
 
 onVideoFileSelected(event: any) {
+  this.resetTranscription();     
   const file = event.target.files[0];
   if (!file) return;
 

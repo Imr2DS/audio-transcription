@@ -1,161 +1,90 @@
-/* ===============================
-   RECORDING CARD
-================================ */
-.record-card {
-  margin-top: 20px;
+.glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+.custom-toolbar {
+  --background: linear-gradient(135deg, #6366f1, #22c55e);
+  --color: #fff;
 }
 
-/* ===============================
-   ROUND MIC BUTTON
-================================ */
+.header-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.85;
+}
 .record-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: 24px 0;
 }
 
 .record-btn {
-  width: 72px;
-  height: 72px;
+  width: 78px;
+  height: 78px;
+  font-size: 30px;
   --border-radius: 50%;
-
-  font-size: 28px;
-  --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Pulse animation when recording */
-ion-button[color="danger"] {
-  animation: pulse 1.2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(235, 68, 90, 0.6);
-  }
-  70% {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 18px rgba(235, 68, 90, 0);
-  }
-  100% {
-    transform: scale(1);
-  }
+  --box-shadow: 0 12px 30px rgba(0,0,0,0.2);
 }
 
 .record-label {
   margin-top: 14px;
   font-size: 14px;
   color: var(--ion-color-medium);
-  text-align: center;
 }
 
-/* ===============================
-   TRANSCRIPTION CARD
-================================ */
-.transcription-card {
-  margin-top: 25px;
-  min-height: 320px;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-ion-textarea {
-  font-size: 1rem;
-}
 .record-timer {
-  margin-top: 6px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--ion-color-danger);
-  letter-spacing: 1px;
-}
-/* 
-   WAVEFORM ANIMATION*/
-.waveform {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 6px;
-  height: 30px;
-  margin-top: 10px;
-}
-
-.waveform span {
-  width: 4px;
-  height: 10px;
-  background: var(--ion-color-danger);
-  border-radius: 4px;
-  animation: wave 1.2s infinite ease-in-out;
-}
-
-/* staggered animation */
-.waveform span:nth-child(1) { animation-delay: 0s; }
-.waveform span:nth-child(2) { animation-delay: 0.15s; }
-.waveform span:nth-child(3) { animation-delay: 0.3s; }
-.waveform span:nth-child(4) { animation-delay: 0.45s; }
-.waveform span:nth-child(5) { animation-delay: 0.6s; }
-
-@keyframes wave {
-  0% { height: 6px; }
-  50% { height: 26px; }
-  100% { height: 6px; }
-}
-.custom-toolbar {
-  --background: linear-gradient(135deg, #5de466, #6366f1);
-  --color: #ffffff;
-}
-
-.subtitle {
-  font-size: 12px;
-  opacity: 0.85;
-  margin-top: 2px;
-}
-
-
-  .audio-label {
-    font-size: 0.9rem;
-    color: var(--ion-color-medium);
-    margin-bottom: 5px;
-  }
-  
-
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 .import-section {
-  margin-top: 16px;
+  margin-top: 18px;
   display: flex;
-  gap: 12px;
-  justify-content: center;
+  gap: 16px;
   opacity: 0.9;
+}
+.media-preview {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 360px;
+  animation: fadeIn 0.3s ease;
+}
+
+.audio-player {
+  width: 100%;
+  height: 48px;
 }
 
 .video-player {
   width: 100%;
-  max-width: 360px;
   max-height: 200px;
-  object-fit: cover;
   border-radius: 14px;
+  object-fit: cover;
   background: #000;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+.transcription-card {
+  margin-top: 24px;
 }
 
-.video-player {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-/* Dans home.page.scss */
 
-.audio-player {
-  width: 100%;            /* Force la largeur maximale */
-  height: 54px;           /* Hauteur standard pour éviter l'écrasement */
-  display: block;         /* Important pour que width fonctionne bien */
-  margin-top: 10px;
-  border-radius: 0;       /* Enlever le radius aide parfois l'affichage natif */
-  outline: none;
+.actions ion-button {
+  --color: var(--ion-color-medium);
+}
+
+ion-textarea {
+  font-size: 15px;
+  line-height: 1.6;
 }
