@@ -161,9 +161,13 @@ ion-textarea {
   filter: invert(1); /* Astuce pour rendre le lecteur natif sombre */
 }
 .custom-video {
-  width: 100%;
-  border-radius: 12px;
+  width: 300px;
+  max-height: 200px;      /* ✅ LIMIT SIZE */
+  height: auto;
+  border-radius: 14px;
   margin-top: 10px;
+  object-fit: cover;     /* ✅ CROP instead of stretch */
+  background: black;
 }
 
 /* --- CONTROLS CONTAINER --- */

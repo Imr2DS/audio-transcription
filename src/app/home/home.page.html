@@ -66,13 +66,19 @@
 
       <div class="controls-container">
         <div class="side-actions" [style.visibility]="isRecording ? 'hidden' : 'visible'">
-          <input type="file" accept="audio/*" hidden #audioInput (change)="onAudioFileSelected($event)" />
-          <input type="file" accept="video/*" hidden #videoInput (change)="onVideoFileSelected($event)" />
-          
-          <ion-button fill="clear" class="icon-btn" (click)="presentFileOptions()">
-            <ion-icon name="folder-open-outline"></ion-icon>
+          <input
+            type="file"
+            accept="audio/*"
+            hidden
+            #audioInput
+            (change)="onAudioFileSelected($event)"
+          />
+
+          <ion-button fill="clear" class="icon-btn" (click)="audioInput.click()">
+            <ion-icon name="musical-notes-outline"></ion-icon>
           </ion-button>
-          <div class="btn-label">Fichier</div>
+
+          <div class="btn-label">Audio</div>
         </div>
 
         <div class="mic-wrapper">
@@ -81,13 +87,21 @@
             <ion-icon [name]="isRecording ? 'square' : 'mic'"></ion-icon>
           </button>
         </div>
-
         <div class="side-actions" [style.visibility]="isRecording ? 'hidden' : 'visible'">
-          <ion-button fill="clear" class="icon-btn" (click)="presentUrlPrompt()">
-            <ion-icon name="link-outline"></ion-icon>
-          </ion-button>
-           <div class="btn-label">Lien</div>
-        </div>
+        <input
+          type="file"
+          accept="video/*"
+          hidden
+          #videoInput
+          (change)="onVideoFileSelected($event)"/>
+
+        <ion-button fill="clear" class="icon-btn" (click)="videoInput.click()">
+          <ion-icon name="film-outline"></ion-icon>
+        </ion-button>
+
+        <div class="btn-label">Vidéo</div>
+      </div>
+        
       </div>
     </div>
   </div>

@@ -67,6 +67,8 @@ export class HomePage {
         this.audioURL = this.sanitizer.bypassSecurityTrustUrl(url);
         
         // On envoie au backend
+        console.log(audioBlob);
+        console.log(audioBlob instanceof File);
         this.sendToBackend(audioBlob);
         this.cdr.detectChanges();
       };
@@ -127,38 +129,8 @@ async presentFileOptions() {
 
 
 
-  private handleLocalFile(file: File, type: 'audio' | 'video') {
-    this.previewType = type;
-    const url = URL.createObjectURL(file);
-    this.audioURL = this.sanitizer.bypassSecurityTrustUrl(url);
-    this.sendToBackend(file);
-  }
 
-// 🔗 Pop-up Lien URL
-async presentUrlPrompt() {
-  const alert = await this.alertCtrl.create({
-    header: 'Lien Web',
-    subHeader: 'Collez l\'URL de la vidéo ou de l\'audio',
-    cssClass: 'custom-alert', // <--- IMPORTANT
-    inputs: [
-      {
-        name: 'url',
-        type: 'url',
-        placeholder: 'https://...',
-      }
-    ],
-    buttons: [
-      { text: 'Annuler', role: 'cancel' },
-      {
-        text: 'Analyser',
-        handler: (data) => {
-          if (data.url) this.sendUrlToBackend(data.url);
-        }
-      }
-    ]
-  });
-  await alert.present();
-}
+
 
   // ==========================================
   // 📡 COMMUNICATION BACKEND
@@ -171,7 +143,7 @@ async presentUrlPrompt() {
     const formData = new FormData();
     formData.append('file', fileOrBlob, (fileOrBlob instanceof File) ? fileOrBlob.name : 'recording.webm');
 
-    this.http.post<any>('http://localhost:8000/transcribe', formData).subscribe({
+    this.http.post<any>('http://192.168.1.6:8000/transcribe', formData).subscribe({
       next: (res) => {
         this.transcribedText = res.text;
         loading.dismiss();
@@ -185,23 +157,7 @@ async presentUrlPrompt() {
     });
   }
 
-  async sendUrlToBackend(url: string) {
-    if (!url) return;
-    const loading = await this.loadingCtrl.create({ message: 'Traitement du lien...' });
-    await loading.present();
-
-    this.http.post<any>('http://localhost:8000/transcribe-url', { url }).subscribe({
-      next: (res) => {
-        this.transcribedText = res.text;
-        loading.dismiss();
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        loading.dismiss();
-        this.showToast("Erreur sur le lien", 'danger');
-      }
-    });
-  }
+  
 
   // ==========================================
   // 🛠️ UTILS (Timer, Toast, Export)
@@ -298,23 +254,12 @@ handleImportedFile(file: File) {
   } else {
     this.previewType = 'audio';
   }
-
-  this.sendFileToBackend(file);
+  console.log(file);
+  console.log(file instanceof File);
+  this.sendToBackend(file);
 }
 
-sendFileToBackend(file: File | Blob) {
-  const formData = new FormData();
-  formData.append('file', file);
 
-  this.http.post<any>('http://localhost:8000/transcribe', formData)
-    .subscribe({
-      next: res => {
-        this.transcribedText = res.text;
-        this.cdr.detectChanges();
-      },
-      error: () => alert('Transcription failed')
-    });
-}
 
 }
 
