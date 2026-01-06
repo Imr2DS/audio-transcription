@@ -1,99 +1,88 @@
-# Video Translator
+# Audio Transcription
 
-A mobile application that automatically translates video content by transcribing audio, translating text, generating new audio or subtitles, and producing a translated video output.
+A mobile application for audio and video transcription using speech recognition. Built with Ionic Angular and FastAPI backend powered by OpenAI Whisper.
 
 ## Description
 
-Video Translator is a full-stack mobile application that enables users to translate videos into different languages with two translation modes:
-- **Voice Mode**: Replaces the original audio with AI-generated speech in the target language
-- **Subtitle Mode**: Adds translated subtitles overlaid on the original video with audio preserved
+Audio Transcription is a cross-platform mobile application that converts speech to text from various sources:
+- **Microphone Recording**: Record audio directly from your device
+- **Audio Files**: Import local audio files (MP3, WAV, WebM, etc.)
+- **Video Files**: Extract and transcribe audio from video files
 
-The app extracts audio from videos, transcribes speech to text using Whisper AI, translates the text using Deep Translator (Google Translator), generates new audio with gTTS (Google Text-to-Speech) or creates subtitle overlays, and combines everything using MoviePy. All processed files are stored securely in Supabase with support for re-translation to different languages.
+The app uses OpenAI's Whisper AI model for accurate speech recognition and provides multiple export options including Word, PDF, and plain text formats.
 
 ## Technologies
 
 ### Frontend
-- **Expo** - React Native framework for cross-platform mobile development
-- **Tamagui** - Universal UI kit for React Native and web
-- **React Native** - Mobile app framework
-- **@supabase/supabase-js** - Supabase client for authentication and storage
-- **Expo Router** - File-based routing for React Native
+- **Ionic Framework** - Cross-platform mobile UI framework
+- **Angular 20** - TypeScript-based web application framework
+- **Capacitor** - Native runtime for building cross-platform apps
+- **RxJS** - Reactive programming library
+- **Ionicons** - Premium icon set
 
 ### Backend
-- **Flask** - Python web framework for REST API
-- **Flask-CORS** - Cross-Origin Resource Sharing support
-- **Whisper** - OpenAI's speech recognition model for transcription
-- **Deep Translator** - Translation service with Google Translator backend
-- **gTTS** - Google Text-to-Speech for audio generation
-- **MoviePy** - Video editing and processing library
-- **Pillow** - Image processing for subtitle generation
-- **arabic-reshaper & python-bidi** - Arabic text support for subtitles
+- **FastAPI** - Modern Python web framework for building APIs
+- **Whisper** - OpenAI's speech recognition model
+- **Pydub** - Audio processing library
+- **CORS Middleware** - Cross-Origin Resource Sharing support
 
-### Storage & Database
-- **Supabase** - Backend-as-a-Service for file storage, database, and authentication
+### Export Libraries
+- **jsPDF** - PDF generation
+- **docx** - Microsoft Word document generation
+- **file-saver** - Client-side file saving
+
+### Native Features
+- **@capacitor/clipboard** - Copy to clipboard functionality
+- **@capacitor/haptics** - Haptic feedback
+- **@capacitor/keyboard** - Keyboard management
+- **@capacitor/status-bar** - Status bar styling
 
 ## Architecture
 
 ```
 ┌─────────────────────┐
 │   Mobile App        │
-│   (Expo + Tamagui)  │
-│   - Video Upload    │
-│   - Language Select │
-│   - Mode Selection  │
+│   (Ionic/Angular)   │
+│   - Record Audio    │
+│   - Import Files    │
+│   - Display Results │
 └──────────┬──────────┘
            │
            │ HTTP/REST API
            │
 ┌──────────▼──────────┐
-│   Flask Backend     │
-│   - /translate      │
-│   - /retranslate    │
+│   FastAPI Backend   │
+│   - /transcribe     │
 └──────────┬──────────┘
            │
-    ┌──────┴──────┐
-    │             │
-┌───▼────┐   ┌───▼────────┐
-│Whisper │   │Deep        │
-│  AI    │   │Translator  │
-│(Audio→ │   │(Text→Text) │
-│ Text)  │   └───┬────────┘
-└───┬────┘       │
-    │            │
-    └─────┬──────┘
-          │
-    ┌─────▼──────┐
-    │  gTTS      │
-    │ (Text→     │
-    │  Audio)    │
-    └─────┬──────┘
-          │
-    ┌─────▼──────┐
-    │  MoviePy   │
-    │ (Video +   │
-    │  Audio/    │
-    │  Subtitle) │
-    └─────┬──────┘
-          │
-    ┌─────▼──────┐
-    │ Supabase   │
-    │ - Storage  │
-    │ - Database │
-    │ - Auth     │
-    └────────────┘
+    ┌──────▼──────┐
+    │   Whisper   │
+    │     AI      │
+    │  (Speech→   │
+    │    Text)    │
+    └──────┬──────┘
+           │
+    ┌──────▼──────┐
+    │   Pydub     │
+    │  (Audio     │
+    │ Processing) │
+    └─────────────┘
 ```
 
 ## Features
 
-- 🎥 **Video Upload** - Upload videos from mobile device or provide Supabase URL
-- 🎤 **Audio Transcription** - Automatic speech-to-text using Whisper AI (base model)
-- 🌍 **Multi-language Translation** - Translate to multiple languages via Deep Translator
-- 🔊 **Voice Translation Mode** - Generate natural-sounding audio in target language and replace original audio
-- 📝 **Subtitle Translation Mode** - Add translated subtitles with customizable styling and Arabic text support
-- 🔄 **Re-translation** - Re-translate existing videos to different languages without re-uploading
-- 🖼️ **Thumbnail Generation** - Automatic thumbnail creation from video frames
-- ☁️ **Cloud Storage** - Secure file storage and retrieval with Supabase
-- 👤 **User Management** - User authentication and video history tracking
+- 🎙️ **Live Recording** - Record audio directly from device microphone with real-time timer
+- 📂 **File Import** - Import audio and video files from device storage
+- 🎬 **Video Support** - Extract and transcribe audio from video files
+- 🎵 **Audio Preview** - Preview recorded or imported audio before transcription
+- 📝 **Text Editing** - Edit transcribed text directly in the app
+- 📋 **Copy to Clipboard** - Quick copy functionality for transcribed text
+- 💾 **Multiple Export Formats**:
+  - Microsoft Word (.docx)
+  - PDF (.pdf)
+  - Plain Text (.txt)
+- ⏱️ **Recording Timer** - Visual timer during audio recording
+- 🎨 **Modern UI** - Glass morphism design with smooth animations
 - 📱 **Cross-platform** - Works on iOS and Android
 
 ## Installation
@@ -104,21 +93,24 @@ The app extracts audio from videos, transcribes speech to text using Whisper AI,
 - Python (v3.8 or higher)
 - npm or yarn
 - pip (Python package manager)
-- Supabase account with project created
-- FFmpeg installed on system (required by MoviePy)
+- Android Studio (for Android development)
+- Xcode (for iOS development, macOS only)
 
 ### Frontend Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/Imr2DS/video_translator.git
-cd video_translator
-
-# Navigate to frontend directory
-cd frontend_tamagui
+git clone https://github.com/Imr2DS/audio-transcription.git
+cd audio-transcription
 
 # Install dependencies
 npm install
+
+# Build the app
+npm run build
+
+# Sync with Capacitor
+npx cap sync
 ```
 
 ### Backend Setup
@@ -136,17 +128,14 @@ venv\Scripts\activate
 # On macOS/Linux:
 source venv/bin/activate
 
-# Install dependencies from requirements.txt
-pip install -r requirements.txt
+# Install dependencies
+pip install fastapi uvicorn whisper pydub python-multipart
 ```
 
-### Font Setup (for Arabic subtitles)
-
-Ensure the Arabic font is available:
-```bash
-# The font should be located at:
-backend/fonts/Amiri-Regular.ttf
-```
+**Note**: Whisper requires FFmpeg to be installed on your system:
+- **Windows**: Download from [ffmpeg.org](https://ffmpeg.org/download.html)
+- **macOS**: `brew install ffmpeg`
+- **Linux**: `sudo apt install ffmpeg`
 
 ## Run Instructions
 
@@ -159,175 +148,214 @@ cd backend
 # Activate virtual environment
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 
-# Run Flask server
-python app.py
+# Run FastAPI server
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-The backend server will start on `http://0.0.0.0:5000`
+The backend server will start on `http://0.0.0.0:8000`
 
 ### Start Frontend App
 
+#### Web Development
 ```bash
-# Navigate to frontend directory
-cd frontend_tamagui
-
-# Start Expo development server
-npx expo start
-
-# Options:
-# - Press 'i' for iOS simulator
-# - Press 'a' for Android emulator
-# - Scan QR code with Expo Go app on physical device
+# Start Ionic development server
+npm start
+# or
+ionic serve
 ```
 
-## Environment Variables
+The app will open at `http://localhost:8100`
 
-### Backend (.env)
+#### Android
+```bash
+# Build and sync
+npm run build
+npx cap sync android
 
-Create a `.env` file in the `backend` directory:
+# Open in Android Studio
+npx cap open android
 
-```env
-# Supabase Configuration
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-supabase-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-SUPABASE_BUCKET=translated_videos
+# Run on device/emulator from Android Studio
 ```
 
-**Important**: 
-- Use `SUPABASE_SERVICE_ROLE_KEY` for backend operations (has full access)
-- Never expose service role key in frontend code
-- Create buckets in Supabase: `translated_videos` and `thumbnails`
+#### iOS (macOS only)
+```bash
+# Build and sync
+npm run build
+npx cap sync ios
 
-### Frontend (.env)
+# Open in Xcode
+npx cap open ios
 
-Create a `.env` file in the `frontend_tamagui` directory:
-
-```env
-# API Configuration
-EXPO_PUBLIC_API_URL=http://localhost:5000
-
-# Supabase Configuration (for client-side auth)
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+# Run on device/simulator from Xcode
 ```
+
+## Configuration
+
+### Backend API URL
+
+Update the API URL in `src/app/home/home.page.ts`:
+
+```typescript
+this.http.post<any>('http://YOUR_IP:8000/transcribe', formData)
+```
+
+Replace `YOUR_IP` with:
+- `localhost` for web development
+- Your local IP address (e.g., `192.168.1.6`) for mobile device testing
+- Your production server URL for deployment
+
+### Capacitor Configuration
+
+The `capacitor.config.ts` file is configured for local development:
+
+```typescript
+const config: CapacitorConfig = {
+  appId: 'io.ionic.starter',
+  appName: 'audio-transcription',
+  webDir: 'www',
+  server: {
+    androidScheme: 'http',
+    cleartext: true,
+    allowNavigation: ['192.168.1.6']  // Update with your IP
+  }
+};
+```
+
+**Important**: Update `allowNavigation` with your backend server IP address.
 
 ## Project Structure
 
 ```
-video_translator/
-├── frontend_tamagui/          # Expo + Tamagui mobile app
-│   ├── app/                   # App screens (Expo Router)
-│   │   ├── index.tsx         # Landing/Login screen
-│   │   ├── home.tsx          # Home screen
-│   │   ├── traduire.tsx      # Translation screen
-│   │   ├── videos.tsx        # Video list screen
-│   │   ├── videoDetail.tsx   # Video detail screen
-│   │   ├── modifierVideo.tsx # Re-translation screen
-│   │   └── profile.tsx       # User profile
-│   ├── components/           # Reusable UI components
-│   │   ├── Button.tsx
-│   │   ├── Input.tsx
-│   │   └── VideoPlayer.tsx
-│   ├── contexts/             # React contexts
-│   │   └── AuthContext.tsx   # Authentication context
-│   ├── lib/                  # Libraries
-│   │   └── supabase.ts       # Supabase client
-│   ├── constants/            # App constants
-│   │   ├── languages.ts      # Language definitions
-│   │   └── theme.ts          # Theme configuration
-│   └── package.json
-├── backend/                   # Flask API server
-│   ├── app.py                # Main Flask application
-│   ├── video_translator.py   # Core translation logic
-│   ├── retranslate.py        # Re-translation logic
-│   ├── fonts/                # Font files for subtitles
-│   │   └── Amiri-Regular.ttf # Arabic font
-│   ├── requirements.txt      # Python dependencies
-│   └── .env                  # Environment variables
+audio-transcription/
+├── src/
+│   ├── app/
+│   │   ├── home/
+│   │   │   ├── home.page.ts          # Main logic
+│   │   │   ├── home.page.html        # UI template
+│   │   │   ├── home.page.scss        # Styles
+│   │   │   └── home.module.ts        # Module config
+│   │   ├── app-routing.module.ts     # Routing
+│   │   ├── app.component.ts          # Root component
+│   │   └── app.module.ts             # App module
+│   ├── assets/                       # Static assets
+│   ├── theme/                        # Global styles
+│   └── index.html                    # Entry point
+├── backend/
+│   ├── main.py                       # FastAPI application
+│   └── uploads/                      # Temporary file storage
+├── android/                          # Android native project
+├── capacitor.config.ts               # Capacitor configuration
+├── ionic.config.json                 # Ionic configuration
+├── angular.json                      # Angular configuration
+├── package.json                      # Dependencies
 └── README.md
 ```
 
 ## API Endpoints
 
-### POST /translate
-Translate a new video
+### POST /transcribe
+
+Transcribe audio or video file to text.
 
 **Request:**
-- `video` (file): Video file to upload (optional if `original_url` provided)
-- `original_url` (string): Supabase URL of existing video (optional)
-- `target_lang` (string): Target language code (e.g., "fr", "ar", "en")
-- `translation_mode` (string): "voice" or "subtitle"
-- `user_id` (string): User identifier
-- `title` (string): Video title
+- Content-Type: `multipart/form-data`
+- Body: `file` (audio/video file)
+
+**Supported formats:**
+- Audio: MP3, WAV, WebM, M4A, OGG, FLAC
+- Video: MP4, AVI, MOV, MKV, WebM
 
 **Response:**
 ```json
 {
-  "translation_mode": "voice",
-  "translated_url": "https://supabase.co/storage/...",
-  "thumbnail_url": "https://supabase.co/storage/..."
+  "text": "Transcribed text content..."
 }
 ```
 
-### POST /retranslate
-Re-translate an existing video to a different language
-
-**Request (JSON):**
-```json
-{
-  "video_id": "uuid-of-video",
-  "target_lang": "ar",
-  "translation_mode": "subtitle"
-}
+**Example:**
+```bash
+curl -X POST http://localhost:8000/transcribe \
+  -F "file=@recording.wav"
 ```
 
-**Response:**
-```json
-{
-  "translation_mode": "subtitle",
-  "translated_url": "https://supabase.co/storage/...",
-  "thumbnail_url": "https://supabase.co/storage/..."
-}
+## Features in Detail
+
+### Recording Audio
+1. Tap the microphone button to start recording
+2. Speak clearly into your device microphone
+3. Tap the stop button (square icon) to finish
+4. Audio is automatically sent for transcription
+
+### Importing Files
+1. Tap the **Audio** button to import audio files
+2. Tap the **Video** button to import video files
+3. Select a file from your device
+4. Preview the media before transcription
+5. Transcription starts automatically
+
+### Exporting Results
+1. After transcription, tap the download icon
+2. Choose export format:
+   - **Word**: Editable .docx document
+   - **PDF**: Portable document format
+   - **Text**: Plain .txt file
+3. File is saved to your device downloads
+
+### Copying Text
+- Tap the copy icon to copy transcribed text to clipboard
+- Paste anywhere on your device
+
+## Whisper Model
+
+The app uses Whisper's **base** model by default, which provides a good balance between accuracy and speed.
+
+Available models (edit in `backend/main.py`):
+- `tiny` - Fastest, least accurate
+- `base` - Good balance (default)
+- `small` - Better accuracy
+- `medium` - High accuracy
+- `large` - Best accuracy, slowest
+
+To change the model:
+```python
+model = whisper.load_model("small")  # Change "base" to desired model
 ```
 
-## Database Schema
+## Troubleshooting
 
-### videos table
-```sql
-CREATE TABLE videos (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id TEXT NOT NULL,
-  title TEXT NOT NULL,
-  original_url TEXT,
-  translated_url TEXT NOT NULL,
-  thumbnail_url TEXT,
-  target_lang TEXT NOT NULL,
-  translation_mode TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP
-);
-```
+### Backend Connection Issues
+- Ensure backend is running on the correct IP and port
+- Update `allowNavigation` in `capacitor.config.ts`
+- Check firewall settings allow connections on port 8000
 
-## Supported Languages
+### Audio Recording Not Working
+- Grant microphone permissions in device settings
+- Test in browser first (Chrome/Safari)
+- Check browser console for errors
 
-The app supports translation to multiple languages including:
-- French (fr)
-- Arabic (ar)
-- English (en)
-- Spanish (es)
-- German (de)
-- Italian (it)
-- Portuguese (pt)
-- And many more...
+### Transcription Fails
+- Verify FFmpeg is installed: `ffmpeg -version`
+- Check audio file format is supported
+- Ensure sufficient disk space for temporary files
 
-See `frontend_tamagui/constants/languages.ts` for the complete list.
+### Android Build Issues
+- Update Android SDK and build tools
+- Sync Gradle files in Android Studio
+- Clear cache: `./gradlew clean`
+
+## Performance Tips
+
+- Use smaller Whisper models for faster transcription
+- Keep audio files under 10 minutes for best performance
+- Close other apps during transcription on mobile devices
+- Use Wi-Fi for faster file uploads
 
 ## Author
 
 **Imr2DS**
 - GitHub: [@Imr2DS](https://github.com/Imr2DS)
-- Repository: [video_translator](https://github.com/Imr2DS/video_translator)
+- Repository: [audio-transcription](https://github.com/Imr2DS/audio-transcription)
 
 ## License
 
@@ -336,9 +364,7 @@ This project is licensed under the MIT License.
 ## Acknowledgments
 
 - OpenAI Whisper for speech recognition
-- Deep Translator for translation services
-- gTTS for text-to-speech generation
-- MoviePy for video processing
-- Supabase for backend infrastructure
-- Tamagui for beautiful UI components
-- Expo for cross-platform development
+- Ionic Framework for cross-platform development
+- FastAPI for modern Python API development
+- Angular team for the robust framework
+- Capacitor for native functionality
